@@ -9,5 +9,6 @@ import { DatabaseModule } from 'src/database/database.module';
   imports: [TypeOrmModule.forFeature([ClientEntity]), DatabaseModule],
   providers: [ClientsService],
   controllers: [ClientsController],
+  exports: [ClientsService],
 })
 export class ClientsModule {}
