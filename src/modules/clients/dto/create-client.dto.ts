@@ -1,16 +1,26 @@
-import { IsNotEmpty, IsString, IsEmail, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsEmail,
+  MinLength,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateClientDTO {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  readonly nomClient: string;
+
+  @IsNotEmpty()
+  @IsNumber({}, { message: 'solde should be a number' })
+  readonly solde: number;
 
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  readonly email: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  password: string;
+  readonly password: string;
 }

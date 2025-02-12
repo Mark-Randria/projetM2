@@ -7,11 +7,13 @@ import { RetraitsModule } from './modules/retraits/retraits.module';
 import { AuditRetraitsModule } from './modules/audit_retraits/audit_retraits.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { validate } from './config/env.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validate,
     }),
     ClientsModule,
     RetraitsModule,

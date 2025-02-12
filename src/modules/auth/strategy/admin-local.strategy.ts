@@ -12,9 +12,10 @@ export class AdminLocalStrategy extends PassportStrategy(
     super({ usernameField: 'email', passwordField: 'password' });
   }
 
-  async validate(numCompte: number, password: string): Promise<any> {
-    const client = await this.authService.validateClient(numCompte, password);
-    if (!client) throw new UnauthorizedException('Invalid credentials');
-    return client;
+  async validate(email: string, password: string): Promise<any> {
+    const admin = await this.authService.validateAdmin(email, password);
+    if (!admin)
+      throw new UnauthorizedException('Invalid administrator credentials');
+    return admin;
   }
 }

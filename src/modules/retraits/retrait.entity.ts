@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IRetrait } from './interfaces/retrait.interface';
+import { ClientEntity } from '../clients/client.entity';
 
 @Entity({ name: 'Retrait' })
 export class RetraitEntity implements IRetrait {
@@ -7,11 +8,11 @@ export class RetraitEntity implements IRetrait {
   numRetrait: number;
 
   @Column()
-  numCheque: number;
+  numCheque: string;
 
-  @Column()
-  numCompte: number;
-
-  @Column()
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   montant: number;
+
+  @ManyToOne(() => ClientEntity, (client) => client.numCompte)
+  client: ClientEntity;
 }

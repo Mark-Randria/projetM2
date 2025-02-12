@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IRetrait } from './interfaces/retrait.interface';
 import { RetraitEntity } from './retrait.entity';
 import { Repository } from 'typeorm';
-import { createRetraitDTO } from './dto/create-retrait.dto';
+import { CreateRetraitDTO } from './dto/create-retrait.dto';
 
 @Injectable()
 export class RetraitsService {
@@ -12,7 +12,8 @@ export class RetraitsService {
     private readonly retraitRepository: Repository<RetraitEntity>,
   ) {}
 
-  async createRetrait(retrait: createRetraitDTO): Promise<IRetrait> {
-    return null;
+  async createRetrait(createRetraitDTO: CreateRetraitDTO): Promise<IRetrait> {
+    const retrait = this.retraitRepository.create(createRetraitDTO);
+    return await this.retraitRepository.save(retrait);
   }
 }

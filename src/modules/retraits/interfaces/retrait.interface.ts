@@ -1,6 +1,5 @@
 export interface IRetrait {
   numRetrait: number;
-  numCheque: number;
-  numCompte: number;
+  numCheque: string;
   montant: number;
 }
