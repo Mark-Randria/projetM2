@@ -24,7 +24,7 @@ export class CreateTables1739390843396 implements MigrationInterface {
       CREATE TABLE retrait (
         "numRetrait" SERIAL PRIMARY KEY,
         "numCheque" VARCHAR(255) NOT NULL,
-        montant INTEGER NOT NULL,
+        montant NUMERIC(15,2),
         "clientNumCompte" INTEGER REFERENCES client("numCompte")
       )
     `);

@@ -8,7 +8,7 @@ import {
 import { IAuditRetrait } from './interfaces/audit_retrait.interface';
 import { ClientEntity } from '../clients/client.entity';
 
-@Entity({ name: 'Audit_Retrait' })
+@Entity({ name: 'audit_retrait' })
 export class AuditRetraitEntity implements IAuditRetrait {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,10 +28,10 @@ export class AuditRetraitEntity implements IAuditRetrait {
   @Column()
   nomClient: string;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', { precision: 15, scale: 2, nullable: true })
   montantAncien: number;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', { precision: 15, scale: 2, nullable: true })
   montantNouveau: number;
 
   @ManyToOne(() => ClientEntity, (utilisateur) => utilisateur.numCompte)

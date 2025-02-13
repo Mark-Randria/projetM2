@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IClient } from './interfaces/client.interface';
 import { RetraitEntity } from '../retraits/retrait.entity';
 
-@Entity({ name: 'Client' })
+@Entity({ name: 'client' })
 export class ClientEntity implements IClient {
   @PrimaryGeneratedColumn()
   numCompte: number;

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS client (
 CREATE TABLE IF NOT EXISTS retrait (
     "numRetrait" SERIAL PRIMARY KEY,
     "numCheque" VARCHAR(255) NOT NULL,
-    montant INTEGER NOT NULL,
+    montant NUMERIC(15,2),
     "clientNumCompte" INTEGER REFERENCES client("numCompte")
 );
 
