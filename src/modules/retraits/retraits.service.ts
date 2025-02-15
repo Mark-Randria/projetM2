@@ -28,15 +28,16 @@ export class RetraitsService {
       relations: ['client'],
     });
 
+    if (!retraitToUpdate) {
+      throw new NotFoundException('Retrait not found');
+    }
+
     const { numCompte: numCompteOfClient } = retraitToUpdate.client;
 
     if (numCompteOfClient !== numCompte) {
       throw new NotFoundException(
         'You dont have the right to update this retrait',
       );
-    }
-    if (!retraitToUpdate) {
-      throw new NotFoundException('Retrait not found');
     }
     await this.retraitRepository.update(numRetrait, retrait);
     return await this.retraitRepository.findOne({ where: { numRetrait } });
@@ -51,15 +52,16 @@ export class RetraitsService {
       relations: ['client'],
     });
 
+    if (!retraitToDelete) {
+      throw new NotFoundException('Retrait not found');
+    }
+
     const { numCompte: numCompteOfClient } = retraitToDelete.client;
 
     if (numCompteOfClient !== numCompte) {
       throw new NotFoundException(
         'You dont have the right to delete this retrait',
       );
-    }
-    if (!retraitToDelete) {
-      throw new NotFoundException('Retrait not found');
     }
     return await this.retraitRepository.delete(numRetrait);
   }
