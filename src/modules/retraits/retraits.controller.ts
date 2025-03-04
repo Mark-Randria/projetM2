@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
-  Post,
-  UseGuards,
-  Request,
-  Patch,
-  Param,
   Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { RetraitsService } from './retraits.service';
 import { CreateRetraitDTO } from './dto/create-retrait.dto';
@@ -16,7 +18,38 @@ import { UpdateRetraitDTO } from './dto/update-retrait.dto';
 @UseGuards(JwtAuthGuard)
 @Controller('retraits')
 export class RetraitsController {
-  constructor(private retraitsService: RetraitsService) {}
+  constructor(private readonly retraitsService: RetraitsService) {}
+
+  @Get()
+  async getAllRetraits() {
+    return await this.retraitsService.getAllRetraits();
+  }
+
+  @Get('client/:numCompte')
+  async getAllRetraitsByClient(@Param('numCompte') numCompte: string) {
+    return await this.retraitsService.getAllRetraitsByClient(+numCompte);
+  }
+
+  @Get('id/:numRetrait')
+  async getRetrait(@Param('numRetrait') numRetrait: string) {
+    const retrait = await this.retraitsService.getRetrait(+numRetrait);
+    if (!retrait) {
+      throw new NotFoundException('Retrait not found');
+    }
+    return retrait;
+  }
+
+  @Get('cheque/:numCheque')
+  async getRetraitByNumCheque(@Param('numCheque') numCheque: string) {
+    const retraits =
+      await this.retraitsService.getRetraitByNumCheque(numCheque);
+    if (!retraits || retraits.length === 0) {
+      throw new NotFoundException(
+        'No retrait found with the provided cheque number',
+      );
+    }
+    return retraits;
+  }
 
   @Post()
   async createRetrait(
@@ -28,14 +61,13 @@ export class RetraitsController {
     return await this.retraitsService.createRetrait(retrait);
   }
 
-  @Patch(':id')
+  @Patch('id/:id')
   async updateRetrait(
     @Request() req,
-    @Param() params,
+    @Param('id') id: string,
     @Body() updateRetraitDTO: UpdateRetraitDTO,
   ) {
     const { numCompte } = req.user;
-    const { id } = params;
     return await this.retraitsService.updateRetrait(
       +id,
       +numCompte,
@@ -43,10 +75,9 @@ export class RetraitsController {
     );
   }
 
-  @Delete(':id')
-  async deleteRetrait(@Request() req, @Param() params) {
+  @Delete('id/:id')
+  async deleteRetrait(@Request() req, @Param('id') id: string) {
     const { numCompte } = req.user;
-    const { id } = params;
     return await this.retraitsService.deleteRetrait(+id, +numCompte);
   }
 }
